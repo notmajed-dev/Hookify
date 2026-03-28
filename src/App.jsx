@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import Timer from "./components/Timer";
 import Tasks from "./components/Tasks";
 import Stats from "./components/Stats";
-
+import NavBar from "./components/NavBar";
+import Timer from "./components/Timer";
 
 const App = () => {
-  // Global states
   const [taskList, setTaskList] = useState([]);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [stats, setStats] = useState({
     workMinutes: 0,
     breakMinutes: 0,
+    sessions: 0, // add this if Timer uses sessions
   });
 
   return (
     <div>
-      <h1>PomodoroPulse</h1>
-      <Tasks taskList={taskList} setTaskList={setTaskList} />
+      <NavBar />
       <Timer
         currentTaskId={currentTaskId}
         setCurrentTaskId={setCurrentTaskId}
@@ -25,6 +24,8 @@ const App = () => {
         stats={stats}
         setStats={setStats}
       />
+      <Tasks taskList={taskList} setTaskList={setTaskList} />
+      
       <Stats stats={stats} taskList={taskList} />
     </div>
   );
