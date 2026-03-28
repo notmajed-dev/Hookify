@@ -40,6 +40,7 @@ const Stats = ({ taskList, stats }) => {
   const options = {
     indexAxis: "y",
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: "top" },
       title: { display: true, text: "Pomodoro Stats" },
@@ -63,8 +64,8 @@ const Stats = ({ taskList, stats }) => {
   };
 
   return (
-    <div className="bg-white shadow rounded p-4">
-      <h2 className="font-bold mb-2">Stats</h2>
+    <div className="bg-white text-black rounded p-4 border-4 border-black border-double shadow-lg w-full md:w-96 h-80">
+      <h2 className="font-bold mb-4">Stats</h2>
       <Bar data={data} options={options} />
     </div>
   );

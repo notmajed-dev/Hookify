@@ -10,23 +10,28 @@ const App = () => {
   const [stats, setStats] = useState({
     workMinutes: 0,
     breakMinutes: 0,
-    sessions: 0, // add this if Timer uses sessions
+    sessions: 0,
   });
 
   return (
-    <div>
+    <div className="min-h-screen bg-white text-black font-mono">
       <NavBar />
-      <Timer
-        currentTaskId={currentTaskId}
-        setCurrentTaskId={setCurrentTaskId}
-        taskList={taskList}
-        setTaskList={setTaskList}
-        stats={stats}
-        setStats={setStats}
-      />
-      <Tasks taskList={taskList} setTaskList={setTaskList} />
-      
-      <Stats stats={stats} taskList={taskList} />
+
+      <div className="flex flex-col items-center gap-12 p-8">
+        <Timer
+          currentTaskId={currentTaskId}
+          setCurrentTaskId={setCurrentTaskId}
+          taskList={taskList}
+          setTaskList={setTaskList}
+          stats={stats}
+          setStats={setStats}
+        />
+
+        <div className="flex flex-col md:flex-row gap-12 w-full justify-center">
+          <Tasks taskList={taskList} setTaskList={setTaskList} />
+          <Stats stats={stats} taskList={taskList} />
+        </div>
+      </div>
     </div>
   );
 };
