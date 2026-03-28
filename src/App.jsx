@@ -5,9 +5,12 @@ const App = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [session, setSession] = useState(1);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [sessionLength, setSessionLength] = useState(25);
+
   function toMinutes(timeLeft) {
-    var remainingMinutes = Math.floor(timeLeft / 60);
-    var remainingSeconds = timeLeft % 60;
+    const remainingMinutes = Math.floor(timeLeft / 60);
+    let remainingSeconds = timeLeft % 60;
     if (remainingSeconds < 10) remainingSeconds = "0" + remainingSeconds;
     return `${remainingMinutes}:${remainingSeconds}`;
   }
@@ -22,7 +25,7 @@ const App = () => {
 
     if (timeLeft === 0) {
       if (isBreak) {
-        setTimeLeft(25 * 60);
+        setTimeLeft(sessionLength * 60);
         setIsBreak(false);
       } else {
         setTimeLeft(5 * 60);
@@ -32,45 +35,104 @@ const App = () => {
       setIsRunning(false);
     }
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isRunning, timeLeft]);
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft, sessionLength]);
 
   return (
-    <div className="flex flex-col mb-8 justify-center items-center h-screen w-screen bg-red-400">
-      <h1 className=" hover:underline hover: decoration-white hover:underline-offset-2 text-9xl font-bold text-white">
-        PomoFocus
-      </h1>
+    <div>
+      <div>{toMinutes(timeLeft)}</div>
+      <p>Session: {session}</p>
 
-      <div className="flex justify-center items-center">
-        {toMinutes(timeLeft)}
-      </div>
-      <p className="text-white text-xl">Session: {session}</p>
       <button
         onClick={() => {
-          setIsRunning(!isRunning);
+          if (!hasStarted) {
+            setHasStarted(true);
+            setIsRunning(true);
+          } else {
+            setIsRunning(!isRunning);
+          }
         }}
       >
-        {isRunning ? "Pause" : "Resume"}
+        {!hasStarted ? "Start" : isRunning ? "Pause" : "Resume"}
       </button>
 
       <button
-  onClick={() => {
-    if (isBreak) {
-      setIsBreak(false);
-      setTimeLeft(25 * 60);
-      setSession(prev => prev + 1);
-    } else {
-      setIsBreak(true);
-      setTimeLeft(5 * 60);
-    }
-    setIsRunning(false); 
-  }}
->
-  Skip
-</button>
+        onClick={() => {
+          if (isBreak) {
+            setIsBreak(false);
+            setTimeLeft(sessionLength * 60);
+            setSession((prev) => prev + 1);
+          } else {
+            setIsBreak(true);
+            setTimeLeft(5 * 60);
+          }
+          setIsRunning(false);
+        }}
+      >
+        Skip
+      </button>
 
+      <button
+        onClick={() => {
+          setTimeLeft(sessionLength * 60);
+          setIsRunning(false);
+          setIsBreak(false);
+        }}
+      >
+        Reset
+      </button>
+
+      <button
+        onClick={() => {
+          setTimeLeft(sessionLength * 60);
+          setIsBreak(false);
+          setIsRunning(false);
+        }}
+      >
+        Pomodoro
+      </button>
+
+      <button
+        onClick={() => {
+          setTimeLeft(5 * 60);
+          setIsBreak(true);
+          setIsRunning(false);
+        }}
+      >
+        Short Break
+      </button>
+
+      <button
+        onClick={() => {
+          setTimeLeft(15 * 60);
+          setIsBreak(true);
+          setIsRunning(false);
+        }}
+      >
+        Long Break
+      </button>
+
+      <button
+        onClick={() => {
+          if (sessionLength > 25) {
+            setSessionLength(sessionLength - 5);
+            setTimeLeft((sessionLength - 5) * 60);
+          }
+        }}
+      >
+        -
+      </button>
+      <span>{sessionLength} mins</span>
+      <button
+        onClick={() => {
+          if (sessionLength < 180) {
+            setSessionLength(sessionLength + 5);
+            setTimeLeft((sessionLength + 5) * 60);
+          }
+        }}
+      >
+        +
+      </button>
     </div>
   );
 };
