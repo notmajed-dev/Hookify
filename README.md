@@ -21,7 +21,7 @@ https://pomo-focus-seven.vercel.app
 ## Getting Started
 
 ### Clone the repository
-git clone https://github.com/your-username/pomo-focus.git
+git clone https://github.com/notmajed-dev/pomo-focus.git
 
 ### Install dependencies
 npm install
