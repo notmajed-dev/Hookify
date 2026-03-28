@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import Tasks from "./components/Tasks";
 
 const App = () => {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
@@ -39,100 +40,115 @@ const App = () => {
   }, [isRunning, timeLeft, sessionLength]);
 
   return (
-    <div>
-      <div>{toMinutes(timeLeft)}</div>
-      <p>Session: {session}</p>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+      <div className="text-6xl font-bold mb-4">{toMinutes(timeLeft)}</div>
+      <p className="text-lg mb-4">Session: {session}</p>
 
-      <button
-        onClick={() => {
-          if (!hasStarted) {
-            setHasStarted(true);
-            setIsRunning(true);
-          } else {
-            setIsRunning(!isRunning);
-          }
-        }}
-      >
-        {!hasStarted ? "Start" : isRunning ? "Pause" : "Resume"}
-      </button>
+      <div className="flex gap-2 mb-4">
+        <button
+          className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
+          onClick={() => {
+            if (!hasStarted) {
+              setHasStarted(true);
+              setIsRunning(true);
+            } else {
+              setIsRunning(!isRunning);
+            }
+          }}
+        >
+          {!hasStarted ? "Start" : isRunning ? "Pause" : "Resume"}
+        </button>
 
-      <button
-        onClick={() => {
-          if (isBreak) {
-            setIsBreak(false);
+        <button
+          className="px-4 py-2 bg-yellow-500 rounded hover:bg-yellow-600"
+          onClick={() => {
+            if (isBreak) {
+              setIsBreak(false);
+              setTimeLeft(sessionLength * 60);
+              setSession((prev) => prev + 1);
+            } else {
+              setIsBreak(true);
+              setTimeLeft(5 * 60);
+            }
+            setIsRunning(false);
+          }}
+        >
+          Skip
+        </button>
+
+        <button
+          className="px-4 py-2 bg-red-500 rounded hover:bg-red-600"
+          onClick={() => {
             setTimeLeft(sessionLength * 60);
-            setSession((prev) => prev + 1);
-          } else {
-            setIsBreak(true);
+            setIsRunning(false);
+            setIsBreak(false);
+          }}
+        >
+          Reset
+        </button>
+      </div>
+
+      <div className="flex gap-2 mb-4">
+        <button
+          className="px-3 py-1 bg-green-500 rounded hover:bg-green-600"
+          onClick={() => {
+            setTimeLeft(sessionLength * 60);
+            setIsBreak(false);
+            setIsRunning(false);
+          }}
+        >
+          Pomodoro
+        </button>
+
+        <button
+          className="px-3 py-1 bg-purple-500 rounded hover:bg-purple-600"
+          onClick={() => {
             setTimeLeft(5 * 60);
-          }
-          setIsRunning(false);
-        }}
-      >
-        Skip
-      </button>
+            setIsBreak(true);
+            setIsRunning(false);
+          }}
+        >
+          Short Break
+        </button>
 
-      <button
-        onClick={() => {
-          setTimeLeft(sessionLength * 60);
-          setIsRunning(false);
-          setIsBreak(false);
-        }}
-      >
-        Reset
-      </button>
+        <button
+          className="px-3 py-1 bg-pink-500 rounded hover:bg-pink-600"
+          onClick={() => {
+            setTimeLeft(15 * 60);
+            setIsBreak(true);
+            setIsRunning(false);
+          }}
+        >
+          Long Break
+        </button>
+      </div>
 
-      <button
-        onClick={() => {
-          setTimeLeft(sessionLength * 60);
-          setIsBreak(false);
-          setIsRunning(false);
-        }}
-      >
-        Pomodoro
-      </button>
-
-      <button
-        onClick={() => {
-          setTimeLeft(5 * 60);
-          setIsBreak(true);
-          setIsRunning(false);
-        }}
-      >
-        Short Break
-      </button>
-
-      <button
-        onClick={() => {
-          setTimeLeft(15 * 60);
-          setIsBreak(true);
-          setIsRunning(false);
-        }}
-      >
-        Long Break
-      </button>
-
-      <button
-        onClick={() => {
-          if (sessionLength > 25) {
-            setSessionLength(sessionLength - 5);
-            setTimeLeft((sessionLength - 5) * 60);
-          }
-        }}
-      >
-        -
-      </button>
-      <span>{sessionLength} mins</span>
-      <button
-        onClick={() => {
-          if (sessionLength < 180) {
-            setSessionLength(sessionLength + 5);
-            setTimeLeft((sessionLength + 5) * 60);
-          }
-        }}
-      >
-        +
-      </button>
+      <div className="flex items-center gap-2 mt-4">
+        <button
+          className="px-3 py-1 bg-red-500 rounded hover:bg-red-600"
+          onClick={() => {
+            if (sessionLength > 25) {
+              setSessionLength(sessionLength - 5);
+              setTimeLeft((sessionLength - 5) * 60);
+            }
+          }}
+        >
+          -
+        </button>
+        <span>{sessionLength} mins</span>
+        <button
+          className="px-3 py-1 bg-green-500 rounded hover:bg-green-600"
+          onClick={() => {
+            if (sessionLength < 180) {
+              setSessionLength(sessionLength + 5);
+              setTimeLeft((sessionLength + 5) * 60);
+            }
+          }}
+        >
+          +
+        </button>
+      </div>
+      <Tasks/>
     </div>
   );
 };
