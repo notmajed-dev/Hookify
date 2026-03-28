@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Tasks from "./Tasks";
-import Timer from "./Timer";
-import Stats from "./Stats";
+import Timer from "./components/Timer";
+import Tasks from "./components/Tasks";
+import Stats from "./components/Stats";
+
 
 const App = () => {
   // Global states
