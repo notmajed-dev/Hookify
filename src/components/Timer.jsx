@@ -34,7 +34,7 @@ const Timer = () => {
       setIsRunning(false);
       setHasStarted(false);
 
-      // change quote
+      
       setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
 
       if (mode === "pomodoro") {
@@ -107,7 +107,6 @@ const Timer = () => {
   return (
     <div className="text-black flex flex-col items-center gap-6 font-mono">
 
-      {/* Mode buttons */}
       <div className="flex gap-4">
         {["pomodoro", "short", "long"].map((m) => (
           <button
@@ -126,12 +125,10 @@ const Timer = () => {
         ))}
       </div>
 
-      {/* Quote */}
       <p className="text-gray-600 italic text-center max-w-md">
         "{quote}"
       </p>
 
-      {/* Timer + side buttons */}
       <div className="flex items-center gap-6">
 
         <button
@@ -156,10 +153,10 @@ const Timer = () => {
 
       </div>
 
-      {/* Controls */}
+      
       <div className="flex items-center gap-4">
 
-        {/* Reset */}
+        
         <button
           onClick={() => {
             setTimeLeft(modes[mode]);
@@ -169,17 +166,12 @@ const Timer = () => {
           className="h-12 w-12 flex items-center justify-center border-4 border-black border-double rounded-full"
         >
           <RotateCcw size={20} />
-        </button>
-
-        {/* Start */}
         <button
           onClick={handleToggle}
           className="px-8 py-3 rounded-full border-4 border-black border-double bg-black text-white font-bold"
         >
           {hasStarted ? (isRunning ? "Pause" : "Resume") : "Start"}
         </button>
-
-        {/* Skip */}
         <button
           onClick={handleSkip}
           className="h-12 w-12 flex items-center justify-center border-4 border-black border-double rounded-full"
